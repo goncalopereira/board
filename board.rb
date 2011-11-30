@@ -29,6 +29,13 @@ def error message
 	error.to_json
 end
 
+get %r{/services/([a-zA-Z]+)} do |service_name|
+
+	service_row = settings.db.collection(:services).find_one(:name => service_name)
+	
+	content_type :json
+	service_row.to_json
+end
 
 get %r{/statuses/([a-zA-Z]+)} do |status_name|
 
@@ -38,12 +45,43 @@ get %r{/statuses/([a-zA-Z]+)} do |status_name|
 	status_row.to_json
 end
 
+get '/services' do
+
+	services = settings.db.collection(:services).find().to_a
+	
+	content_type :json	
+	{ :services => services}.to_json
+end
+
 get '/statuses' do
 
 	statuses = settings.db.collection(:statuses).find().to_a
 	
 	content_type :json	
 	{ :statuses => statuses}.to_json
+end
+
+post '/services' do
+
+	name = params[:name]
+	
+	names = settings.db.collection(:services).find(:name => name)
+
+	if names.count > 0
+		return error "existing service name #{name}"
+	end
+
+	description = params[:description]
+	url = params[:url]
+	host_name = params[:hostname]
+		
+	service = {'name' => name, 'description' => description, 'url' => url, 'hostname' => host_name, 'current-event' => nil} 
+	
+	settings.db.collection(:services).insert(service)
+	
+	status_row = settings.db.collection(:services).find_one(:name => name)
+	content_type :json	
+	status_row.to_json
 end
 
 post '/statuses' do
@@ -62,7 +100,7 @@ post '/statuses' do
 	
 	status = {'name' => name, 'description' => description, 'level' => level, 'image' => image} 
 	
-	settings.db.statuses.insert(status)
+	settings.db.collection(:statuses).insert(status)
 	
 	status_row = settings.db.collection(:statuses).find_one(:name => name)
 	content_type :json	
