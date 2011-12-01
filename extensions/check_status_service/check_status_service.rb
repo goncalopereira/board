@@ -35,10 +35,11 @@ services_list.each do |service|
 	begin
 		response = get_request service['url'], service['hostname']
 
-		if response.code == "200"		
+		puts response.methods
+		if response.code == '200'		
 			puts post_event service['name'], 'Up'	
 		else
-			puts post_event service['name'], 'BadResponse'
+			puts post_event service['name'], 'BadResponse', response.code + " " + response.body 
 		end		
 	rescue Exception => e
 		puts post_event service['name'], 'Down', e.message
