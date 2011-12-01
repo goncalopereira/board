@@ -18,24 +18,36 @@ post '/services' do
 
 	name = params[:name]
 	
-	names = settings.db.collection(:services).find(:name => name)
+	service = settings.db.collection(:services).find_one(:name => name)
 
-	if names.count > 0
+	if not service.nil?
 		return error "existing service name #{name}"
-	end
+	end	
 
 	description = params[:description]
 	url = params[:url]
 
 	host_name = params[:hostname]
-	environment = params[:environment]
-	application = params[:application]
-		
-	service = {'name' => name, 'description' => description, 'url' => url, 'hostname' => host_name, 'current-event' => nil, 'environment' => environment, 'application' => application} 
+	environment_name = params[:environment]
+	application_name = params[:application]
+	
+	environment = settings.db.collection(:environments).find_one(:name => environment_name)
+
+	if environment.nil?
+		return error "non existing environment name #{environment_name}"
+	end
+
+	application = settings.db.collection(:applications).find_one(:name => application_name)
+	
+	if application.nil?
+		return error "non existing application name #{application_name}"
+	end
+				
+	service = {'name' => name, 'description' => description, 'url' => url, 'hostname' => host_name, 'current-event' => nil, 'environment' => environment_name, 'application' => application_name} 
 	
 	settings.db.collection(:services).insert(service)
 	
-	status_row = settings.db.collection(:services).find_one(:name => name)
+	service = settings.db.collection(:services).find_one(:name => name)
 	content_type :json	
-	status_row.to_json
+	service.to_json
 end
