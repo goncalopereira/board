@@ -1,0 +1,83 @@
+html, body{
+  height: 100%;
+}
+
+body{
+  font:12px arial,helvetica,verdana,sans-serif;
+  background: rgb(247, 247, 247);
+}
+
+a {
+  color:#333;
+  text-decoration:none;
+}
+
+a:hover {
+  color:#666;
+}
+
+em {
+  font-style: italic;
+}
+
+
+h1 {font-size: 32px; font-weight: bold;}
+h2 {font-size: 32px; font-weight: bold;}
+h3 {font-size: 24px; font-weight: bold;}
+h3.date-range {color: #999; margin-top: 20px}
+
+
+/* DATA TABLES */
+.data {
+  width: 100%;
+  border-spacing:10;
+  font-size: 1.1em;
+  border-collapse: separate;
+  border-left:1px solid #E4E4E4;
+  border-top:1px solid #E4E4E4;
+}
+
+.data a {
+  text-decoration: underline;
+}
+
+.data thead {
+  background: #EEEEEE;
+}
+
+.data th {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid rgb(228, 228, 228);
+  border-right: 1px solid rgb(228, 228, 228);
+}
+
+.data tr {
+  font-size: 16px;
+}
+
+.data td {
+  padding: 10px;
+  border-bottom: 1px solid rgb(228, 228, 228);
+  border-right: 1px solid rgb(228, 228, 228);
+  vertical-align: middle;
+  height: 25px;
+}
+
+
+.data .time { width: 20%; }
+.data .today { background: rgb(228, 228, 228); }
+.data .highlight { background: rgb(247, 247, 247); }
+.data .status, .data .date, .data .today { text-align: center; }
+.data .action { width: 5px; }
+
+.data .status img {
+  max-width: 20px;
+}
+
+
+.sym {
+  max-width: 20px;
+}

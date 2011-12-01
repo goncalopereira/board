@@ -1,23 +1,27 @@
 %html
 	%head
 		%title Current Status
+		%link{:type => "text/css", :href => '/style.css', :rel=>"stylesheet"}
 	%body		
-		%h2 Current Status
+		%h2 Current Statuses
 
-		%table
+		%table{:class=>'data'}
 			%tbody
 			- locals[:services].each do |service|
 				%tr
+					%td= service['environment']
+					%td= service['application']
 					%td= service['description']
-					%td
-						%img{:src => "#{locals[:url]}#{service['current-event']['status']['image']}"}
+					%td{:class=>'status'}
+						%img{:class=>'sym',:src => "#{locals[:url]}#{service['current-event']['status']['image']}"}
 					%td= service['current-event']['timestamp']
-		
-		%table
+
+			
+		%table{:class=>'data'}
 			%tbody				
 			-locals[:statuses].each do |status|
 				%tr
 					%td= status['name']
 					%td= status['description']
-					%td
-						%img{:src=> "#{locals[:url]}#{status['image']}"}
+					%td{:clsas=>'status'}
+						%img{:class=>'sym',:src=> "#{locals[:url]}#{status['image']}"}
