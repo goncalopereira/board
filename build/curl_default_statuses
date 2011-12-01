@@ -1,0 +1,3 @@
+curl -X "POST" "http://localhost:4567/statuses" -d "name=Up&image=/images/tick-circle.png"
+curl -X "POST" "http://localhost:4567/statuses" -d "name=Down&image=/images/tick-cross.png"
+curl -X "POST" "http://localhost:4567/statuses" -d "name=BadResponse&image=/images/exclamation.png"
