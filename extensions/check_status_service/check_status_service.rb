@@ -27,23 +27,30 @@ def post_event service_name, status_name, message = ''
 end
 
 
-response_services = get_services
-services_list = JSON.parse(response_services)['services']
+def update_all_services
+	response_services = get_services
+	services_list = JSON.parse(response_services)['services']
 
-services_list.each do |service|
+	services_list.each do |service|
 
-	begin
-		response = get_request service['url'], service['hostname']
+		begin
+			response = get_request service['url'], service['hostname']
 
-		puts response.methods
-		if response.code == '200'		
-			puts post_event service['name'], 'Up'	
-		else
-			puts post_event service['name'], 'BadResponse', response.code + " " + response.body 
-		end		
-	rescue Exception => e
-		puts post_event service['name'], 'Down', e.message
+			if response.code == '200'		
+				puts post_event service['name'], 'Up'	
+			else
+				puts post_event service['name'], 'BadResponse', response.code + " " + response.body 
+			end		
+		rescue Exception => e
+			puts post_event service['name'], 'Down', e.message
+		end
 	end
+end
+
+
+while true do
+	update_all_services
+	sleep 60
 end
 
 
