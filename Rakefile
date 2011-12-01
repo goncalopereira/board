@@ -33,6 +33,7 @@ task :clean_all do
 	db.collection(:environments).remove
 	db.collection(:services).remove
 	db.collection(:events).remove
+	puts 'deleted all data...'
 end
 
 task :build_statuses do
@@ -64,3 +65,4 @@ task :build_example do
 
 end	
 
+task :example => [:clean_all, :build_statuses, :build_environments, :build_example]
