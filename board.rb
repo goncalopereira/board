@@ -6,6 +6,7 @@ require 'faster_csv'
 require 'json'
 require 'mongo'
 
+require './applications.rb'
 require './statuses.rb'
 require './events.rb'
 require './services.rb'
