@@ -24,10 +24,9 @@ post '/statuses' do
 	end
 
 	description = params[:description]
-	level = params[:level]
 	image = params[:image]
 	
-	status = {'name' => name, 'description' => description, 'level' => level, 'image' => image} 
+	status = {'name' => name, 'description' => description, 'image' => image} 
 	
 	settings.db.collection(:statuses).insert(status)
 	
