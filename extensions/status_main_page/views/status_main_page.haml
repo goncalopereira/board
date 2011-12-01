@@ -8,8 +8,10 @@
 			%tbody
 			- locals[:services].each do |service|
 				%tr
-					%td= service['name']
-					%td= service['current-event']['status']	
+					%td= service['description']
+					%td
+						%img{:src => "#{locals[:url]}#{service['current-event']['status']['image']}"}
+					%td= service['current-event']['timestamp']
 		
 		%table
 			%tbody				
