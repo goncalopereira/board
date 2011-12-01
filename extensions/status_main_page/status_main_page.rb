@@ -21,6 +21,31 @@ get '/'	do
 
 	response_services = get_services 
 	services_list = JSON.parse(response_services)['services']
+	
+	environment = params["environment"]
+	filtered_list = []
+	if not environment.nil?
+		services_list.each do |service|
+			if service["environment"].eql? environment
+				filtered_list << service
+			end
+		end
+		
+		services_list = filtered_list
+	end
+
+	application = params["application"]
+	filtered_list = []
+	if not application.nil?
+		services_list.each do |service|
+			if service["application"].eql? application
+				filtered_list << service
+			end
+		end
+	
+		services_list = filtered_list
+	end
+			
 	response_statuses = get_statuses
 	statuses_list = JSON.parse(response_statuses)['statuses']
 
