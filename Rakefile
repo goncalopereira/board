@@ -35,3 +35,18 @@ task :build_environments do
         puts res.body
 end
 
+task :build_example do
+        uri = URI("#{LOCAL_URI}/applications")
+        res = Net::HTTP.post_form(uri, 'name' => 'API', 'description' => 'this is the API')
+        puts res.body
+	
+	uri = URI("#{LOCAL_URI}/services")
+        res = Net::HTTP.post_form(uri, 'name' => 'API-Live-Machine-1', 'description' => 'API Live Machine 1', 'environment' => 'Live', 'application' => 'API')
+        puts res.body
+
+	uri = URI("#{LOCAL_URI}/services/API-Live-Machine-1/events")
+        res = Net::HTTP.post_form(uri, 'status' => 'Up')
+        puts res.body
+
+end	
+

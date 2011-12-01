@@ -1,5 +1,5 @@
 
-get %r{/services/([a-zA-Z]+)/events} do |service_name|
+get %r{/services/([a-zA-Z0-9\-]+)/events} do |service_name|
 
 	events = settings.db.collection(:events).find_one(:name => service_name).to_a
 	
@@ -8,7 +8,7 @@ get %r{/services/([a-zA-Z]+)/events} do |service_name|
 end
 
 
-post %r{/services/([a-zA-Z]+)/events} do |service_name|
+post %r{/services/([a-zA-Z0-9\-]+)/events} do |service_name|
 
         service = settings.db.collection(:services).find_one(:name => service_name)
 

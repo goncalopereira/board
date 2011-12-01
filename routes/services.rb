@@ -1,4 +1,4 @@
-get %r{/services/([a-zA-Z]+)} do |service_name|
+get %r{/services/([a-zA-Z0-9-]+)} do |service_name|
 
         service_row = settings.db.collection(:services).find_one(:name => service_name)
 	
