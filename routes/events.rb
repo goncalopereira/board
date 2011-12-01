@@ -1,7 +1,8 @@
 
 get %r{/services/([a-zA-Z0-9\-]+)/events} do |service_name|
 
-	events = settings.db.collection(:events).find_one(:name => service_name).to_a
+	puts 'get events'
+	events = settings.db.collection(:events).find(:name => service_name).to_a
 	
 	content_type :json
 	events.to_json
@@ -36,6 +37,6 @@ post %r{/services/([a-zA-Z0-9\-]+)/events} do |service_name|
 	settings.db.collection(:services).update( {"_id" => service["_id"] }, '$set' => { "current-event" => event})
 
         content_type :json
-        event.to_json
+        event.to_jsoni
 end
 

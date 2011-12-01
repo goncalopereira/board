@@ -8,7 +8,11 @@ require 'mongo'
 
 require './configs.rb'
 
-Dir['./routes/*.rb']. each { |file| require file } 
+require './routes/events.rb'
+require './routes/applications.rb'
+require './routes/services.rb'
+require './routes/environments.rb'
+require './routes/statuses.rb'
 
 configure do
 	set :db, Mongo::Connection.new.db(MONGO_DB_NAME)

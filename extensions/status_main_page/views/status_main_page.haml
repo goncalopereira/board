@@ -11,7 +11,10 @@
 				%tr
 					%td= service['environment']
 					%td= service['application']
-					%td= service['description']
+					%td
+						%a{:href=>"#{locals[:url]}/services/#{service["name"]}"}   
+							%b= service['description']
+						
 					%td{:class=>'status'}
 						%img{:class=>'sym',:src => "#{locals[:url]}#{service['current-event']['status']['image']}"}
 					%td= service['current-event']['timestamp']
