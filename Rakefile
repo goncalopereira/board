@@ -56,7 +56,7 @@ task :build_example do
 
 	puts build_application 'API'
 	
-	puts build_service 'API Live Machine 1', 'API', 'Live', 'http://api.7digital.com/1.2/status','api.7digital.com'
+	puts build_service 'API Live Machine 1', 'API', 'Live', 'http://api.7digital.com/1.2/status?oauth_consumer_key=YOUR_KEY_HERE','api.7digital.com'
 
 	uri = URI("#{LOCAL_URI}/services/API-Live-Machine-1/events")
         res = Net::HTTP.post_form(uri, 'status' => 'Up')
