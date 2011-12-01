@@ -21,3 +21,15 @@ task :build_statuses do
         res = Net::HTTP.post_form(uri, 'name' => 'BadResponse', 'description' => 'service is not responding OK', 'image' => '/images/exclamation.png')
 	puts res.body
 end
+
+task :build_environments do
+        uri = URI('http://localhost:4567/environments')
+
+        res = Net::HTTP.post_form(uri, 'name' => 'SysTest', 'description' => 'SysTest')
+        puts res.body
+        res = Net::HTTP.post_form(uri, 'name' => 'UAT', 'description' => 'UAT')
+        puts res.body
+        res = Net::HTTP.post_form(uri, 'name' => 'Live', 'description' => 'Live')
+        puts res.body
+end
+
