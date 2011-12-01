@@ -15,6 +15,7 @@
 					%td{:class=>'status'}
 						%img{:class=>'sym',:src => "#{locals[:url]}#{service['current-event']['status']['image']}"}
 					%td= service['current-event']['timestamp']
+					%td= service['current-event']['message']
 
 			
 		%table{:class=>'data'}
