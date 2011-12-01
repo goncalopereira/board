@@ -4,6 +4,28 @@ require 'net/http'
 
 require './configs.rb'
 
+def build_application application
+        uri = URI("#{LOCAL_URI}/applications")
+        res = Net::HTTP.post_form(uri, 'name' => application)
+        res.body
+end
+
+def build_environment environment
+        uri = URI("#{LOCAL_URI}/environments")
+        res = Net::HTTP.post_form(uri, 'name' => environment)
+        res.body
+end
+
+def build_service service_name, application, environment, url, hostname
+        uri = URI("#{LOCAL_URI}/services")
+
+        encoded_service_name = service_name.gsub(" ", "-")
+
+        res = Net::HTTP.post_form(uri, 'name' => encoded_service_name, 'description' => service_name, 'environment' => environment, 'url' => url, 'hostname'=>hostname, 'application' => application)
+
+        res.body
+end
+
 task :clean_all do
 	db = Mongo::Connection.new.db("mydb")
 	db.collection(:statuses).remove
@@ -25,24 +47,16 @@ task :build_statuses do
 end
 
 task :build_environments do
-        uri = URI("#{LOCAL_URI}/environments")
-
-        res = Net::HTTP.post_form(uri, 'name' => 'SysTest', 'description' => 'SysTest')
-        puts res.body
-        res = Net::HTTP.post_form(uri, 'name' => 'UAT', 'description' => 'UAT')
-        puts res.body
-        res = Net::HTTP.post_form(uri, 'name' => 'Live', 'description' => 'Live')
-        puts res.body
+	puts build_environment 'SysTest'
+	puts build_environment 'UAT'
+	puts build_environment 'Live'
 end
 
 task :build_example do
-        uri = URI("#{LOCAL_URI}/applications")
-        res = Net::HTTP.post_form(uri, 'name' => 'API', 'description' => 'this is the API')
-        puts res.body
+
+	puts build_application 'API'
 	
-	uri = URI("#{LOCAL_URI}/services")
-        res = Net::HTTP.post_form(uri, 'name' => 'API-Live-Machine-1', 'description' => 'API Live Machine 1', 'environment' => 'Live', 'application' => 'API')
-        puts res.body
+	puts build_service 'API Live Machine 1', 'API', 'Live', 'http://api.7digital.com/1.2/status','api.7digital.com'
 
 	uri = URI("#{LOCAL_URI}/services/API-Live-Machine-1/events")
         res = Net::HTTP.post_form(uri, 'status' => 'Up')
