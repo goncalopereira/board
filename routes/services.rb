@@ -16,8 +16,10 @@ end
 
 post '/services' do
 
-	name = params[:name]
-	
+       	environment_name = params[:environment]
+        application_name = params[:application]
+	name = application_name + '-' + environment_name + '-' + params[:name]
+
 	service = settings.db.collection(:services).find_one(:name => name)
 
 	if not service.nil?
@@ -28,8 +30,6 @@ post '/services' do
 	url = params[:url]
 
 	host_name = params[:hostname]
-	environment_name = params[:environment]
-	application_name = params[:application]
 	
 	environment = settings.db.collection(:environments).find_one(:name => environment_name)
 

@@ -36,11 +36,11 @@ task :build_example do
 
 	puts build_application 'API'
 	
-	puts build_service 'API Live Machine Example', 'API', 'Live', 'http://api.7digital.com/1.2/status?oauth_consumer_key=YOUR_KEY_HERE','api.7digital.com'
-	puts build_service 'API Bad Request Example', 'API', 'Live', 'http://api.7digital.com/1.2/something','api.7digital.com'
-	puts build_service 'API Down Example', 'API', 'Live', 'http://nothing-here-example.com','nothing-here-example.7digital.com'
+	puts build_service 'OK Example', 'API', 'Live', 'http://api.7digital.com/1.2/status?oauth_consumer_key=YOUR_KEY_HERE','api.7digital.com'
+	puts build_service 'Bad Request Example', 'API', 'Live', 'http://api.7digital.com/1.2/something','api.7digital.com'
+	puts build_service 'Down Example', 'API', 'Live', 'http://nothing-here-example.com','nothing-here-example.7digital.com'
 	
-	uri = URI("#{LOCAL_URI}/services/API-Live-Machine-Example/events")
+	uri = URI("#{LOCAL_URI}/services/API-Live-OK-Example/events")
         res = Net::HTTP.post_form(uri, 'status' => 'Up')
         puts res.body
 end	
