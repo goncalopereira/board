@@ -2,6 +2,8 @@ require 'rake'
 require 'mongo'
 require 'net/http'
 
+require './configs.rb'
+
 task :clean_all do
 	db = Mongo::Connection.new.db("mydb")
 	db.collection(:statuses).remove
@@ -12,7 +14,7 @@ task :clean_all do
 end
 
 task :build_statuses do
-	uri = URI('http://localhost:4567/statuses')
+	uri = URI("#{LOCAL_URI}/statuses")
 	
 	res = Net::HTTP.post_form(uri, 'name' => 'Up', 'description' => 'service is working normally', 'image' => '/images/tick-circle.png')
 	puts res.body
@@ -23,7 +25,7 @@ task :build_statuses do
 end
 
 task :build_environments do
-        uri = URI('http://localhost:4567/environments')
+        uri = URI("#{LOCAL_URI}/environments")
 
         res = Net::HTTP.post_form(uri, 'name' => 'SysTest', 'description' => 'SysTest')
         puts res.body
