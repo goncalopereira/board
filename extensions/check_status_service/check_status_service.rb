@@ -1,28 +1,9 @@
+require 'rubygems'
 require 'net/http'
+require 'json'
+require 'uri'
 
 LOCAL_URI = 'http://localhost:4567'
-
-def build_application application
-	uri = URI("#{LOCAL_URI}/applications")
-	res = Net::HTTP.post_form(uri, 'name' => application)
-	res.body
-end
-
-def build_environment environment
-	uri = URI("#{LOCAL_URI}/environments")
-	res = Net::HTTP.post_form(uri, 'name' => environment)
-	res.body
-end
-
-def build_service service_name, application, environment, url, hostname
-	uri = URI("#{LOCAL_URI}/services")
-	
-	service_name = service_name.gsub(" ", "-")
-
-	res = Net::HTTP.post_form(uri, 'name' => service_name, 'description' => service_name, 'environment' => environment, 'url' => url, 'hostname'=>hostname, 'application' => application)
-	
-	res.body
-end
 
 def get_request url, host_header
 	uri = URI(url)
@@ -32,6 +13,36 @@ def get_request url, host_header
 	headers =  {"Host"  => host_header }
 	puts "curl -v \"http://#{uri.host}#{path}#{query}\" -H \"Host: #{host_header}\""
 	return http.get(path + query, headers)
+end
+
+def get_services
+        uri = URI.parse(LOCAL_URI + '/services')
+        Net::HTTP.get_response(uri).body
+end
+
+def post_event service_name, status_name, message = ''
+	uri = URI.parse(LOCAL_URI + '/services/' + service_name + '/events')
+    
+	Net::HTTP.post_form(uri, 'status' => status_name, 'message' => message)
+end
+
+
+response_services = get_services
+services_list = JSON.parse(response_services)['services']
+
+services_list.each do |service|
+
+	begin
+		response = get_request service['url'], service['hostname']
+
+		if response.code == "200"		
+			puts post_event service['name'], 'Up'	
+		else
+			puts post_event service['name'], 'BadResponse'
+		end		
+	rescue Exception => e
+		puts post_event service['name'], 'Down', e.message
+	end
 end
 
 
