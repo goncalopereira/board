@@ -37,6 +37,6 @@ post %r{/services/([a-zA-Z0-9\-]+)/events} do |service_name|
 	settings.db.collection(:services).update( {"_id" => service["_id"] }, '$set' => { "current-event" => event})
 
         content_type :json
-        event.to_jsoni
+        event.to_json
 end
 
